@@ -1,0 +1,1037 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* ============ tokens ============
+   Theme = <html data-theme="light|dark|sepia">; no attribute = follow macOS. */
+:root {
+  --bg: #fbfbfd; --surface: #ffffff; --field: rgba(0,0,0,.045); --pop: #ffffff;
+  --fg: #1d1d1f; --text2: #424248; --muted: #6e6e73; --faint: #a1a1a6;
+  --line: rgba(0,0,0,.08); --accent: #0b5cd5; --accent-soft: rgba(11,92,213,.10);
+  --chip: rgba(0,0,0,.05); --chip-hover: rgba(0,0,0,.085);
+  --lvl-a: #1a7f45; --lvl-a-bg: rgba(26,127,69,.10);
+  --lvl-b: #0b5cd5; --lvl-b-bg: rgba(11,92,213,.10);
+  --lvl-c: #7340c9; --lvl-c-bg: rgba(115,64,201,.11);
+  --shadow: 0 12px 32px rgba(0,0,0,.14), 0 2px 6px rgba(0,0,0,.06);
+  --accent-mid: rgba(11,92,213,.35); --on-accent: #fff; --hero-2: rgba(115,64,201,.07);
+  --gram: #0e7c86; --reg: #b0570b; --hl: rgba(255,196,0,.30);
+  --uk: #c42f4c; --uk-bg: rgba(196,47,76,.10); --us: #2c5fd4; --us-bg: rgba(44,95,212,.10);
+  --flame: #f2711c; --gold: #c98a00; --gold-bg: rgba(217,154,0,.14);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #1c1c1e; --surface: #242427; --field: rgba(255,255,255,.07); --pop: #2c2c2f;
+    --fg: #f5f5f7; --text2: #d1d1d6; --muted: #a1a1a8; --faint: #6e6e74;
+    --line: rgba(255,255,255,.09); --accent: #7cb1ff; --accent-soft: rgba(124,177,255,.16);
+    --chip: rgba(255,255,255,.07); --chip-hover: rgba(255,255,255,.12);
+    --lvl-a: #62d48f; --lvl-a-bg: rgba(98,212,143,.14);
+    --lvl-b: #7cb1ff; --lvl-b-bg: rgba(124,177,255,.15);
+    --lvl-c: #b99bff; --lvl-c-bg: rgba(185,155,255,.15);
+    --shadow: 0 14px 36px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.3);
+    --accent-mid: rgba(124,177,255,.40); --on-accent: #0d1b33; --hero-2: rgba(185,155,255,.10);
+    --gram: #5ccfd6; --reg: #f2b46a; --hl: rgba(255,200,60,.22);
+    --uk: #ff8095; --uk-bg: rgba(255,128,149,.15); --us: #86abff; --us-bg: rgba(134,171,255,.15);
+    --flame: #ff9548; --gold: #f5c344; --gold-bg: rgba(245,195,68,.15);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1c1c1e; --surface: #242427; --field: rgba(255,255,255,.07); --pop: #2c2c2f;
+  --fg: #f5f5f7; --text2: #d1d1d6; --muted: #a1a1a8; --faint: #6e6e74;
+  --line: rgba(255,255,255,.09); --accent: #7cb1ff; --accent-soft: rgba(124,177,255,.16);
+  --chip: rgba(255,255,255,.07); --chip-hover: rgba(255,255,255,.12);
+  --lvl-a: #62d48f; --lvl-a-bg: rgba(98,212,143,.14);
+  --lvl-b: #7cb1ff; --lvl-b-bg: rgba(124,177,255,.15);
+  --lvl-c: #b99bff; --lvl-c-bg: rgba(185,155,255,.15);
+  --shadow: 0 14px 36px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.3);
+  --accent-mid: rgba(124,177,255,.40); --on-accent: #0d1b33; --hero-2: rgba(185,155,255,.10);
+  --gram: #5ccfd6; --reg: #f2b46a; --hl: rgba(255,200,60,.22);
+  --uk: #ff8095; --uk-bg: rgba(255,128,149,.15); --us: #86abff; --us-bg: rgba(134,171,255,.15);
+  --flame: #ff9548; --gold: #f5c344; --gold-bg: rgba(245,195,68,.15);
+  color-scheme: dark;
+}
+/* Yellow / sepia: warm paper, dark-brown ink — easy on the eyes for long reading */
+:root[data-theme="sepia"] {
+  --bg: #f5ecd5; --surface: #fbf5e4; --field: rgba(92,68,28,.075); --pop: #fbf5e4;
+  --fg: #3a2e1c; --text2: #4e4029; --muted: #7b6a4c; --faint: #a6956f;
+  --line: rgba(92,68,28,.14); --accent: #94540f; --accent-soft: rgba(148,84,15,.12);
+  --chip: rgba(92,68,28,.075); --chip-hover: rgba(92,68,28,.13);
+  --lvl-a: #4c7a26; --lvl-a-bg: rgba(76,122,38,.13);
+  --lvl-b: #2e6889; --lvl-b-bg: rgba(46,104,137,.12);
+  --lvl-c: #85457f; --lvl-c-bg: rgba(133,69,127,.12);
+  --shadow: 0 12px 32px rgba(70,50,15,.18), 0 2px 6px rgba(70,50,15,.08);
+  --accent-mid: rgba(148,84,15,.35); --on-accent: #fff; --hero-2: rgba(133,69,127,.07);
+  --gram: #2c6e68; --reg: #9b3d25; --hl: rgba(222,160,40,.30);
+  --uk: #a33a3d; --uk-bg: rgba(163,58,61,.11); --us: #2e5c8a; --us-bg: rgba(46,92,138,.11);
+  --flame: #c25a17; --gold: #a8790a; --gold-bg: rgba(168,121,10,.14);
+  color-scheme: light;
+}
+
+/* ============ base ============ */
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
+  font: 14px/1.5 -apple-system, "SF Pro Text", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+body { display: flex; flex-direction: column; overflow: hidden; -webkit-user-select: text; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+::selection { background: var(--accent-soft); }
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 6px; border: 3px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--faint); }
+kbd { display: inline-block; min-width: 22px; padding: 1px 6px; border-radius: 5px; text-align: center;
+  font: 600 12px/18px -apple-system, system-ui; color: var(--text2); background: var(--surface);
+  border: 1px solid var(--line); box-shadow: 0 1px 0 var(--line); }
+
+/* ============ header ============ */
+header { position: relative; display: flex; align-items: center; gap: 8px; padding: 16px 14px 12px 16px; }
+.field { position: relative; flex: 1; }
+.field svg { position: absolute; left: 11px; top: 50%; width: 16px; height: 16px; margin-top: -8px;
+  color: var(--faint); pointer-events: none; }
+#q { width: 100%; height: 40px; border: 0; outline: 0; border-radius: 11px; background: var(--field);
+  color: var(--fg); font-size: 17px; font-weight: 500; padding: 0 12px 0 36px; transition: box-shadow .15s, background .15s; }
+#q::placeholder { color: var(--faint); font-weight: 400; }
+#q:focus { background: var(--surface); box-shadow: 0 0 0 3px var(--accent-soft), inset 0 0 0 1px var(--accent); }
+#tools { display: flex; gap: 2px; }
+#tools button { width: 32px; height: 32px; border-radius: 9px; color: var(--muted); display: grid; place-items: center;
+  transition: background .12s, color .12s; }
+#tools button:hover { background: var(--chip); color: var(--fg); }
+#tools button.on { color: var(--accent); background: var(--accent-soft); }
+#tools svg { width: 16px; height: 16px; }
+
+/* thin progress bar while a lookup is loading */
+header::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line); }
+body:has(main.loading) header::after { height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent) 0 0 / 40% 100% no-repeat, var(--line);
+  animation: slide 1s ease-in-out infinite; }
+@keyframes slide { from { background-position: -40% 0, 0 0; } to { background-position: 140% 0, 0 0; } }
+
+#sugg { position: absolute; left: 16px; right: 60px; top: calc(100% - 6px); z-index: 10; margin: 0; padding: 5px;
+  list-style: none; border-radius: 12px; background: var(--pop); border: 1px solid var(--line);
+  box-shadow: var(--shadow); display: none; }
+#sugg.show { display: block; }
+#sugg li { padding: 7px 11px; border-radius: 7px; cursor: default; font-size: 14px; }
+#sugg li:hover { background: var(--chip); }
+#sugg li.sel { background: var(--accent); color: #fff; }
+
+/* ============ main ============ */
+main { flex: 1; overflow-y: auto; overflow-x: hidden; overflow-wrap: break-word; padding: 20px 22px 36px; }
+main.loading > * { opacity: .45; transition: opacity .2s .15s; }
+
+.section-label { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .07em;
+  text-transform: uppercase; margin: 0 0 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip { padding: 4px 12px; border-radius: 999px; background: var(--chip); color: var(--fg); font-size: 13px;
+  transition: background .12s; }
+.chip:hover { background: var(--chip-hover); text-decoration: none !important; }
+.chip .p { color: var(--muted); font-style: italic; margin-left: 5px; }
+
+.empty { display: grid; justify-items: center; text-align: center; gap: 14px; padding: 48px 12px 28px; color: var(--muted); }
+.empty svg { width: 40px; height: 40px; color: var(--faint); }
+.empty p { margin: 0; line-height: 1.9; font-size: 13px; }
+.recent { margin-top: 4px; }
+
+.notice { display: flex; align-items: center; gap: 12px; margin: 0 0 18px; padding: 11px 12px 11px 14px;
+  border-radius: 10px; background: var(--accent-soft); color: var(--fg); font-size: 13px; }
+.notice span { flex: 1; }
+.notice button { flex: none; padding: 5px 12px; border-radius: 7px; background: var(--accent); color: #fff;
+  font-size: 12px; font-weight: 600; }
+
+.msg { color: var(--muted); }
+.msg h3 { margin: 6px 0 14px; font-weight: 600; font-size: 16px; color: var(--fg); }
+
+/* ============ Oxford entry ============ */
+.entry a { color: var(--accent); text-decoration: none; }
+.entry a:hover { text-decoration: underline; }
+
+#ring-links-box, .jumplinks, .ring-links-buttons, .apple-app, .responsive_display_inline_on_smartphone,
+.topic-g, .pron-link, .dictlink-g, .ox3ksym_link, .xref_to_full_entry, .oxford-lexico,
+img, .addthis, .socialShare, .ad, [id^="ad_"] { display: none !important; }
+
+/* --- headword block --- */
+.entry > .top-container { margin-bottom: 16px; }
+.webtop { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+h1.headword { font: 700 32px/1.15 "New York", ui-serif, Georgia, serif; margin: 0 4px 0 0; letter-spacing: -.015em; }
+.webtop .pos { font-size: 13px; font-weight: 500; font-style: italic; color: var(--text2);
+  padding: 2px 9px; border-radius: 999px; background: var(--chip); }
+.badge { font-size: 11px; font-weight: 600; letter-spacing: .02em; padding: 3px 8px; border-radius: 999px;
+  white-space: nowrap; color: var(--muted); background: var(--chip); }
+.badge.lvl-a, .cefr.lvl-a { color: var(--lvl-a); background: var(--lvl-a-bg); }
+.badge.lvl-b, .cefr.lvl-b { color: var(--lvl-b); background: var(--lvl-b-bg); }
+.badge.lvl-c, .cefr.lvl-c { color: var(--lvl-c); background: var(--lvl-c-bg); }
+
+.phonetics { display: flex; flex-wrap: wrap; gap: 8px; flex-basis: 100%; margin-top: 8px; }
+.phons_br, .phons_n_am { display: inline-flex; align-items: center; gap: 8px; padding: 3px 12px 3px 3px;
+  border-radius: 999px; background: var(--surface); border: 1px solid var(--line); cursor: pointer;
+  transition: border-color .12s, background .12s; }
+.phons_br:hover, .phons_n_am:hover { border-color: var(--faint); }
+.sound { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px 0 6px; border-radius: 999px;
+  background: var(--chip); color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .06em; }
+.sound svg { width: 13px; height: 13px; }
+.phons_br.playing, .phons_n_am.playing { border-color: var(--accent); }
+.playing .sound { background: var(--accent); color: #fff; }
+.phon { font-family: "Lucida Grande", -apple-system, sans-serif; font-size: 14px; color: var(--text2); }
+
+.variants, .inflections, .labels, .grammar, .dis-g, .use, .subj, .geo, .reg { color: var(--muted); font-size: 13px; }
+.top-container .variants { display: block; margin-top: 8px; }
+.un { color: var(--muted); font-size: 13px; }
+.others { margin: -4px 0 18px; }
+
+/* --- senses --- */
+ol.senses_multiple, ol.sense_single { list-style: none; padding: 0; margin: 0; }
+ol.senses_multiple { counter-reset: s; }
+li.sense { position: relative; padding: 0; margin: 0 0 22px; }
+ol.senses_multiple > li.sense, ol.senses_multiple > .shcut-g > li.sense { counter-increment: s; padding-left: 34px; }
+ol.senses_multiple > li.sense::before, ol.senses_multiple > .shcut-g > li.sense::before { content: counter(s); position: absolute; left: 0; top: 1px;
+  width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--chip); color: var(--text2); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.shcut-g { display: block; margin-top: 8px; }
+h2.shcut { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--muted); margin: 8px 0 14px; }
+h2.shcut::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+.cefr { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .03em; padding: 1px 6px;
+  border-radius: 5px; margin-right: 8px; vertical-align: 2px; text-transform: uppercase; line-height: 15px;
+  color: var(--muted); background: var(--chip); }
+.def { font-size: 15.5px; line-height: 1.5; color: var(--fg); }
+.sensetop .labels, .sensetop .grammar, li.sense > .labels, li.sense > .grammar { margin-right: 4px; }
+.cf { display: block; margin-top: 8px; font-weight: 600; font-size: 13px; color: var(--accent); }
+.examples .cf { display: inline; margin: 0 6px 0 0; }
+ul.examples { list-style: none; padding: 0; margin: 8px 0 0; }
+ul.examples > li { position: relative; color: var(--text2); padding: 1px 0 1px 14px; margin: 5px 0; font-size: 14px; }
+ul.examples > li::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2.5px;
+  border-radius: 2px; background: var(--accent-soft); }
+.gloss { color: var(--muted); }
+.xrefs { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; }
+.prefix { font-variant: small-caps; letter-spacing: .03em; color: var(--muted); margin-right: 4px; }
+
+/* --- collapsed extras --- */
+details { margin: 10px 0 0; }
+li.sense details:not([open]), .idm-g details:not([open]), .entry > details:not([open]) {
+  display: inline-block; margin-right: 6px; }
+details summary { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px 3px 8px; border-radius: 999px;
+  font-size: 12px; font-weight: 500; color: var(--muted); background: var(--chip); cursor: pointer;
+  list-style: none; user-select: none; transition: background .12s, color .12s; }
+details summary::-webkit-details-marker { display: none; }
+details summary::before { content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0;
+  transform: rotate(-45deg); margin-right: 2px; transition: transform .15s; }
+details[open] summary::before { transform: rotate(45deg) translate(-1px, -1px); }
+details summary:hover { background: var(--chip-hover); color: var(--fg); }
+details[open] { display: block; padding: 10px 14px 12px; border-radius: 12px; background: var(--surface);
+  border: 1px solid var(--line); }
+details[open] summary { padding: 0; background: none; color: var(--fg); font-weight: 600; margin-bottom: 4px; }
+details[open] > :not(summary) { font-size: 13.5px; color: var(--text2); }
+details .unbox { display: block; margin-top: 6px; }
+details .unbox .unbox { display: inline; font-weight: 600; color: var(--fg); }
+details ul.examples > li::before { display: none; }
+details ul.examples > li { padding-left: 0; }
+ul.collocs_list { padding-left: 18px; margin: 2px 0 6px; }
+table { border-collapse: collapse; font-size: 13px; }
+td, th { padding: 3px 14px 3px 0; text-align: left; }
+
+/* --- idioms & phrasal verbs --- */
+.idioms, .phrasal_verb_links, .pv-g { display: block; margin-top: 30px; }
+.idioms_heading, .phrasal_verb_links > .unbox > .box_title, .pvarr {
+  display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.idioms_heading::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.idioms > .un { display: block; margin-bottom: 12px; }
+.idm-g { display: block; margin: 0 0 10px; padding: 12px 14px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--line); }
+.idm-g .top-container { margin-bottom: 4px; }
+.idm-g li.sense { margin: 0 0 6px; }
+.idm-g li.sense:last-child { margin-bottom: 0; }
+.idm { font-weight: 650; font-size: 15px; color: var(--fg); }
+
+/* ============ colour & hierarchy ============ */
+/* headword "hero" card with a soft two-tone glow */
+.entry > .top-container { margin: -2px 0 20px; padding: 18px 20px 16px; border-radius: 16px;
+  border: 1px solid var(--line);
+  background: radial-gradient(120% 160% at 0% 0%, var(--accent-soft), transparent 55%),
+              radial-gradient(90% 140% at 100% 0%, var(--hero-2), transparent 60%), var(--surface); }
+.entry > .top-container .phons_br, .entry > .top-container .phons_n_am { background: var(--bg); }
+.webtop .pos { color: var(--accent); background: var(--accent-soft); }
+
+/* UK / US get their own colours */
+.phons_br .sound { background: var(--uk-bg); color: var(--uk); }
+.phons_n_am .sound { background: var(--us-bg); color: var(--us); }
+.phons_br.playing { border-color: var(--uk); }
+.phons_n_am.playing { border-color: var(--us); }
+.phons_br.playing .sound { background: var(--uk); color: #fff; }
+.phons_n_am.playing .sound { background: var(--us); color: #fff; }
+
+/* sense numbers in the accent colour; fill on hover */
+ol.senses_multiple > li.sense::before, ol.senses_multiple > .shcut-g > li.sense::before {
+  background: var(--accent-soft); color: var(--accent); transition: background .15s, color .15s; }
+ol.senses_multiple > li.sense:hover::before, ol.senses_multiple > .shcut-g > li.sense:hover::before {
+  background: var(--accent); color: var(--on-accent); }
+
+/* grammar [countable] and register (formal) each have a hue */
+.grammar { color: var(--gram); font-weight: 500; }
+.labels { color: var(--reg); font-style: italic; }
+.cf { display: table; padding: 1px 8px; border-radius: 6px; background: var(--accent-soft); }
+
+/* examples: accent bar, collocations bold, headword highlighted like a marker pen */
+ul.examples > li::before { background: var(--accent-mid); }
+.x .cl { font-weight: 600; color: var(--fg); }
+mark.hw { color: var(--fg); font-weight: 600; background: none; border-radius: 2px;
+  box-shadow: inset 0 -.42em 0 var(--hl); }
+
+/* section headings & idiom cards */
+h2.shcut, .idioms_heading, .phrasal_verb_links > .unbox > .box_title, .pvarr { color: var(--accent); }
+.idm-g { border-left: 3px solid var(--accent-mid); }
+.idm { color: var(--accent); }
+details summary:hover { color: var(--accent); background: var(--accent-soft); }
+details[open] { border-top: 2px solid var(--accent-mid); }
+
+/* phrasal verbs: heading like the other sections, list as chips */
+.phrasal_verb_links > .unbox { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.phrasal_verb_links > .unbox::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+ul.pvrefs { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 7px; }
+ul.pvrefs a { display: block; padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 500;
+  color: var(--accent); background: var(--accent-soft); transition: background .12s, color .12s; }
+ul.pvrefs a:hover { text-decoration: none; background: var(--accent); color: var(--on-accent); }
+
+/* empty state icon */
+.empty svg { color: var(--accent); padding: 14px; width: 68px; height: 68px; border-radius: 20px;
+  background: radial-gradient(circle at 30% 20%, var(--accent-soft), var(--hero-2)); }
+
+/* ============ progress: today pill, save star, celebrations ============ */
+#tools #today { width: auto; height: 28px; margin: 2px 4px 0 0; padding: 0 10px 0 8px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 650;
+  font-variant-numeric: tabular-nums; color: var(--text2);
+  background: linear-gradient(90deg, var(--accent-soft) var(--p, 0%), var(--chip) var(--p, 0%)); }
+#tools #today:hover { color: var(--fg); }
+#today svg { width: 14px; height: 14px; color: var(--faint); transition: color .3s; }
+#today.lit svg { color: var(--flame); }
+#today .of { color: var(--muted); font-weight: 500; margin-left: -3px; }
+#today.bump { animation: bump .5s ease-out; }
+@keyframes bump { 35% { transform: scale(1.14); } }
+
+.entry > .top-container { position: relative; }
+.entry > .top-container .webtop { padding-right: 40px; }
+.save-btn { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; color: var(--muted); transition: background .12s, color .12s; }
+.save-btn svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
+.save-btn:hover { background: var(--chip); color: var(--gold); }
+.save-btn.on { color: var(--gold); }
+.save-btn.on svg { fill: currentColor; }
+.save-btn.pop { animation: bump .4s ease-out; }
+
+.confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
+.toast { position: fixed; left: 50%; bottom: 18px; z-index: 60; display: flex; align-items: center; gap: 12px;
+  padding: 10px 18px 10px 10px; border-radius: 16px; background: var(--pop); border: 1px solid var(--line);
+  box-shadow: var(--shadow); cursor: pointer; transform: translateX(-50%);
+  animation: toast-in .45s cubic-bezier(.2, 1.4, .4, 1); transition: opacity .35s, transform .35s; }
+.toast b { display: block; font-size: 15px; color: var(--fg); }
+.toast span { font-size: 12.5px; color: var(--muted); }
+.toast.out { opacity: 0; transform: translate(-50%, 10px); }
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 24px) scale(.94); } }
+
+/* medals: 5 green · 25 blue · 50 purple · 100 gold */
+.medal { --c: var(--lvl-a); --cb: var(--lvl-a-bg); flex: none; width: 42px; height: 42px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums;
+  color: var(--c); background: var(--cb); box-shadow: inset 0 0 0 2px var(--c); }
+.medal.m25 { --c: var(--lvl-b); --cb: var(--lvl-b-bg); }
+.medal.m50 { --c: var(--lvl-c); --cb: var(--lvl-c-bg); }
+.medal.m100 { --c: var(--gold); --cb: var(--gold-bg); font-size: 12.5px; }
+.medal.sm { width: 26px; height: 26px; font-size: 10.5px; box-shadow: inset 0 0 0 1.5px var(--c); }
+
+/* ============ dashboard (stats · saved · history) ============ */
+.dash-top { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.back { padding: 5px 10px; border-radius: 8px; color: var(--muted); font-size: 13px; }
+.back:hover { background: var(--chip); color: var(--fg); }
+.seg { display: inline-flex; padding: 3px; border-radius: 10px; background: var(--chip); }
+.seg button { padding: 5px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.seg button:hover { color: var(--fg); }
+.seg button.on { background: var(--surface); color: var(--fg); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.seg i { font-style: normal; font-size: 11px; margin-left: 4px; padding: 0 6px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent); }
+.dash section { margin: 0 0 24px; }
+.muted { color: var(--muted); font-size: 13px; margin: 0; }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.tile { padding: 13px 15px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.tile:first-child { background: radial-gradient(120% 160% at 0% 0%, var(--accent-soft), transparent 60%), var(--surface); }
+.t-label { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.t-big { display: flex; align-items: center; gap: 8px; margin: 6px 0 2px; font-size: 30px; font-weight: 750;
+  line-height: 1.1; font-variant-numeric: tabular-nums; color: var(--fg); }
+.t-big small { font-size: 15px; font-weight: 600; color: var(--muted); margin-left: -7px; }
+.t-sub { font-size: 12px; color: var(--muted); }
+.t-sub b { color: var(--fg); }
+.ring { width: 30px; height: 30px; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 5; }
+.ring .track { stroke: var(--chip-hover); }
+.ring .arc { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset .6s; }
+.flame { display: inline-flex; color: var(--faint); }
+.flame svg { width: 24px; height: 24px; }
+.flame.lit { color: var(--flame); }
+
+.medals { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.mdl { display: grid; justify-items: center; gap: 5px; font-size: 11.5px; color: var(--muted); }
+.mdl:not(.got) .medal { --c: var(--faint); --cb: transparent; box-shadow: inset 0 0 0 1.5px var(--line); }
+.mdl.next .medal { --c: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent-mid); border: 0; }
+.mdl.next span { color: var(--accent); font-weight: 600; }
+.mdl.got span { color: var(--text2); }
+
+/* 14-day bar chart: one series, so one hue; today emphasised; goal line at 5 */
+.plot { position: relative; height: 110px; display: grid; grid-template-columns: repeat(14, 1fr); gap: 2px;
+  align-items: end; border-bottom: 1px solid var(--line); margin-right: 52px; }
+.goal { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--accent-mid); pointer-events: none; }
+.goal span { position: absolute; left: calc(100% + 6px); top: -8px; white-space: nowrap; font-size: 10px; font-weight: 600; color: var(--muted); }
+.col { position: relative; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.col .b { width: min(70%, 22px); min-height: 2px; border-radius: 4px 4px 0 0; background: var(--accent-mid); }
+.col.zero .b { background: var(--line); }
+.col.today .b { background: var(--accent); }
+.col:hover .b { background: var(--accent); }
+.col::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%);
+  padding: 3px 8px; border-radius: 6px; white-space: nowrap; font-size: 11.5px; color: var(--fg);
+  background: var(--pop); border: 1px solid var(--line); box-shadow: var(--shadow); opacity: 0; pointer-events: none;
+  transition: opacity .1s; z-index: 2; }
+.col:hover::after { opacity: 1; }
+.col.today .b::before { content: attr(data-n); display: block; margin-top: -17px; text-align: center;
+  font-size: 11px; font-weight: 700; color: var(--fg); }
+.xlabels { display: grid; grid-template-columns: repeat(14, 1fr); gap: 2px; margin-top: 4px;
+  font-size: 10px; text-align: center; color: var(--faint); margin-right: 52px; }
+.xlabels .now { color: var(--accent); font-weight: 700; }
+
+.boards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px 26px; }
+ol.lb { list-style: none; padding: 0; margin: 0; }
+ol.lb li { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+ol.lb li:last-child { border-bottom: 0; }
+.rank { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 11px; font-weight: 700; color: var(--muted); background: var(--chip); }
+.rank.r1 { color: #fff; background: linear-gradient(135deg, #f7c948, #d99a00); }
+.rank.r2 { color: #fff; background: linear-gradient(135deg, #c3c8cf, #8e959e); }
+.rank.r3 { color: #fff; background: linear-gradient(135deg, #e3a06a, #b36b32); }
+.lb-word { flex: none; max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  text-align: left; font-weight: 600; color: var(--fg); }
+button.lb-word { flex: 0 0 36%; }
+button.lb-word:hover { color: var(--accent); }
+.lb-word em { font-style: normal; font-weight: 500; font-size: 11px; color: var(--accent); margin-left: 4px; }
+.lb-bar { flex: 1; height: 5px; border-radius: 3px; background: var(--chip); overflow: hidden; }
+.lb-bar i { display: block; height: 100%; border-radius: 3px; background: var(--accent-mid); }
+.lb-sp { flex: 1; }
+.lb-n { flex: none; min-width: 34px; text-align: right; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.list-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+  font-size: 12px; color: var(--muted); }
+ul.saved { list-style: none; padding: 0; margin: 0; }
+ul.saved li { position: relative; border-bottom: 1px solid var(--line); }
+.sv-main { display: block; padding: 9px 34px 9px 2px; color: var(--fg) !important; text-decoration: none !important; }
+.sv-main b { font-size: 15px; }
+.sv-main i { margin-left: 7px; font-size: 12px; color: var(--accent); }
+.sv-main span { display: block; margin-top: 1px; font-size: 13px; color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sv-main:hover b { color: var(--accent); }
+.sv-x { position: absolute; right: 2px; top: 50%; width: 26px; height: 26px; margin-top: -13px; border-radius: 50%;
+  font-size: 17px; line-height: 1; color: var(--faint); opacity: 0; transition: opacity .12s; }
+ul.saved li:hover .sv-x { opacity: 1; }
+.sv-x:hover { background: var(--chip); color: var(--fg); }
+.chip.starred::after { content: "★"; margin-left: 5px; font-size: 10px; color: var(--gold); }
+.empty.small { padding-top: 28px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="field">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.4 10.4L14 14"/></svg>
+  <input id="q" placeholder="Tra từ tiếng Anh…" autocomplete="off" autocorrect="off"
+         autocapitalize="off" spellcheck="false">
+  </div>
+  <div id="tools">
+    <button id="today" title="Hôm nay — bấm để xem thống kê"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8.7 1c.4 2.1-.9 3.4-2 4.6C5.5 6.8 4 8.2 4 10.3A4 4 0 0 0 12 10.4c0-1.6-.7-2.8-1.4-3.6-.1 1.1-.7 1.9-1.4 2.2.5-2.8-.3-5.8-.5-8z"/></svg><span class="n">0</span><span class="of">/5</span></button>
+    <button id="pin" title="Ghim: giữ khung tra khi bấm ra ngoài">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 1.8l4.7 4.7-2 .6-2.6 2.6.2 3-1.3 1.3-3.2-3.2L2 14m3.3-6.5L2.1 4.3l1.3-1.3 3 .2L9 .6"/></svg>
+    </button>
+    <button id="web" title="Mở trang này trên Oxford">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h5v5M14 2L7.5 8.5M12 9.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3.5"/></svg>
+    </button>
+  </div>
+  <ul id="sugg"></ul>
+</header>
+<main id="main"></main>
+
+<script>
+(() => {
+  const BASE = 'https://www.oxfordlearnersdictionaries.com';
+  const native = (msg) => window.webkit.messageHandlers.native.postMessage(msg);
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const q = $('#q'), main = $('#main'), sugg = $('#sugg');
+
+  let suggItems = [], suggSel = -1, suggTimer = 0, suggSeq = 0, lookupSeq = 0;
+  let currentURL = null, pinned = false;
+  let prefs = { autoplay: 'off', theme: 'system', celebrate: true };   // pushed from Swift (Prefs.forUI)
+  function applyPrefs(p) {
+    prefs = Object.assign(prefs, p || {});
+    if (prefs.theme === 'system') delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = prefs.theme;
+  }
+  const history = [];   // urls for ⌘[ / ⌘]
+  let hIdx = -1;
+  const cache = new Map();
+
+  // ---------- recents (per-viewer convenience only) ----------
+  const RKEY = 'minidict.recent';
+  const loadRecent = () => { try { return JSON.parse(localStorage.getItem(RKEY)) || []; } catch { return []; } };
+  const saveRecent = (w) => {
+    try {
+      const r = loadRecent().filter(x => x.toLowerCase() !== w.toLowerCase());
+      r.unshift(w); localStorage.setItem(RKEY, JSON.stringify(r.slice(0, 16)));
+    } catch {}
+  };
+
+  function home() {
+    currentURL = null; view = null;
+    const r = loadRecent();
+    const recent = r.length
+      ? `<div class="recent"><div class="section-label">Gần đây</div><div class="chips">${r.map(w =>
+          `<button class="chip" data-word="${esc(w)}">${esc(w)}</button>`).join('')}</div></div>` : '';
+    main.innerHTML = `<div class="empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 11.5h5"/></svg>
+        <p>Bôi đen một chữ ở bất kỳ đâu rồi nhấn <kbd>⌘</kbd> <kbd>⌘</kbd><br>hoặc gõ từ vào ô trên, nhấn <kbd>↩</kbd> · <kbd>esc</kbd> để đóng</p>
+      </div>${recent}`;
+  }
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // ---------- suggestions ----------
+  function renderSugg(items) {
+    suggItems = items.slice(0, 8); suggSel = -1;
+    sugg.innerHTML = suggItems.map((w, i) => `<li data-i="${i}">${esc(w)}</li>`).join('');
+    sugg.classList.toggle('show', suggItems.length > 0);
+  }
+  const hideSugg = () => { sugg.classList.remove('show'); suggItems = []; suggSel = -1; };
+  function moveSel(d) {
+    if (!suggItems.length) return;
+    const n = suggItems.length;          // -1 = back in the text box
+    suggSel = d > 0 ? (suggSel + 1 >= n ? -1 : suggSel + 1)
+                    : (suggSel - 1 < -1 ? n - 1 : suggSel - 1);
+    $$('li', sugg).forEach((li, i) => li.classList.toggle('sel', i === suggSel));
+  }
+  async function suggest(text) {
+    const seq = ++suggSeq;
+    let r = [];
+    try { r = await native({ cmd: 'suggest', q: text }); } catch {}
+    if (seq !== suggSeq || q.value.trim() !== text || document.activeElement !== q) return;
+    renderSugg(r || []);
+  }
+  q.addEventListener('input', () => {
+    clearTimeout(suggTimer);
+    const v = q.value.trim();
+    if (!v) { hideSugg(); return; }
+    suggTimer = setTimeout(() => suggest(v), 110);
+  });
+  sugg.addEventListener('mousedown', (e) => {
+    const li = e.target.closest('li'); if (!li) return;
+    e.preventDefault(); lookup(suggItems[+li.dataset.i]);
+  });
+
+  // ---------- lookup ----------
+  function lookup(text) {
+    text = (text || '').trim(); if (!text) return;
+    q.value = text;
+    go(`${BASE}/search/english/direct/?q=${encodeURIComponent(text)}`, { word: text });
+  }
+
+  async function go(url, { push = true, word = null, anchor = null } = {}) {
+    hideSugg(); clearTimeout(suggTimer); suggSeq++;
+    const seq = ++lookupSeq;
+    main.classList.add('loading');
+    let res = cache.get(url);
+    if (!res) {
+      try { res = await native({ cmd: 'page', url }); }
+      catch (e) {
+        if (seq !== lookupSeq) return;
+        main.classList.remove('loading');
+        main.innerHTML = `<div class="msg"><h3>Không kết nối được Oxford</h3>${esc(e.message || e)}</div>`;
+        return;
+      }
+      cache.set(url, res); cache.set(res.url, res);
+    }
+    if (seq !== lookupSeq) return;
+    main.classList.remove('loading');
+    render(res, word, push);
+    if (push) { history.splice(hIdx + 1); history.push(res.url); hIdx = history.length - 1; }
+    if (anchor) { const t = document.getElementById(anchor); if (t) t.scrollIntoView({ block: 'start' }); }
+  }
+
+  function render(res, typed, speak = false) {
+    currentURL = res.url; view = null;
+    const doc = new DOMParser().parseFromString(res.html, 'text/html');   // inert: scripts don't run
+    const entry = $('#entryContent', doc);
+    main.scrollTop = 0;
+
+    if (entry) {
+      clean(entry, doc);
+      main.innerHTML = '';
+      main.append(document.adoptNode(entry));
+      const hw = $('h1.headword', main);
+      const hwText = hw ? hw.textContent.trim() : '';
+      if (hwText) { saveRecent(hwText); if (document.activeElement !== q) q.value = hwText; }
+      if (hwText) { addSaveButton(res.url); record(hwText, speak); }
+      const others = relatedEntries(doc, res.url, hwText);
+      if (others) main.querySelector('.webtop')?.closest('.top-container')?.after(others);
+      // Auto-pronounce the headword (setting in the menu bar menu); not when going back/forward.
+      if (speak && prefs.autoplay !== 'off') {
+        const sel = prefs.autoplay === 'us' ? '.phons_n_am .sound' : '.phons_br .sound';
+        const snd = $(`.top-container ${sel}`, main) || $(sel, main);
+        if (snd) playSound(snd);
+      }
+      return;
+    }
+
+    const dym = [...new Set($$('.result-list a', doc).map(a => a.textContent.trim()).filter(Boolean))];
+    const word = typed || new URL(res.url).searchParams.get('q') || '';
+    main.innerHTML = `<div class="msg"><h3>Không có “${esc(word)}” trong từ điển</h3>${
+      dym.length ? `<div class="section-label">Có phải bạn muốn tra</div><div class="chips">${
+        dym.slice(0, 10).map(w => `<button class="chip" data-word="${esc(w)}">${esc(w)}</button>`).join('')}</div>` : ''}</div>`;
+  }
+
+  // Other parts of speech / related headwords ("better adverb", "better noun"...)
+  // Only other parts of speech of the same headword; idioms already live in the entry.
+  function relatedEntries(doc, url, headword) {
+    const seen = new Set([url.split(/[?#]/)[0]]);
+    const items = [];
+    for (const a of $$('#relatedentries dd ul.list-col li a', doc)) {
+      const href = a.href.split(/[?#]/)[0];
+      if (!/\/definition\/english\//.test(href) || seen.has(href)) continue;
+      const pos = a.querySelector('pos')?.textContent.trim() || '';
+      const word = a.textContent.replace(pos, '').trim();
+      if (!pos || word.toLowerCase() !== headword.toLowerCase()) continue;   // e.g. "better" → bettor
+      seen.add(href); items.push({ href, word, pos });
+    }
+    if (!items.length) return null;
+    const div = document.createElement('div');
+    div.className = 'others chips';
+    div.innerHTML = items.slice(0, 6).map(i =>
+      `<a class="chip" href="${esc(i.href)}">${esc(i.word)}${i.pos ? `<span class="p">${esc(i.pos)}</span>` : ''}</a>`).join('');
+    return div;
+  }
+
+  function clean(root, doc) {
+    $$('script, style, link, iframe, noscript, ins, form, img, video, audio, #ring-links-box', root).forEach(n => n.remove());
+    $$('li.sense .symbols', root).forEach(n => n.remove());   // the CEFR badge already shows the level
+    $$('*', root).forEach(el => {
+      for (const a of [...el.attributes]) if (/^on/i.test(a.name) || a.name === 'style') el.removeAttribute(a.name);
+    });
+    // Oxford 3000/5000 symbol → small text badge
+    $$('.symbols', root).forEach(s => {
+      const m = s.innerHTML.match(/ox([35])ksym_([abc][12])/);
+      s.innerHTML = m ? `<span class="badge lvl-${m[2][0]}">Oxford ${m[1]}000 · ${m[2].toUpperCase()}</span>` : '';
+      s.classList.remove('symbols');
+    });
+    // Audio buttons
+    const spk = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 6h2.5L9 3v10L5.5 10H3z"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.6 3.8a6 6 0 0 1 0 8.4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+    $$('.phons_br .sound', root).forEach(s => s.innerHTML = spk + 'UK');
+    $$('.phons_n_am .sound', root).forEach(s => s.innerHTML = spk + 'US');
+    // CEFR level per sense
+    $$('li.sense[cefr]', root).forEach(li => {
+      const d = $('.def', li); if (!d) return;
+      const lvl = (li.getAttribute('cefr') || '').toLowerCase();
+      const b = doc.createElement('span'); b.className = `cefr lvl-${lvl[0]}`; b.textContent = lvl;
+      d.before(b);
+    });
+    // Highlight the headword (and its inflections) inside example sentences.
+    const hw = ($('h1.headword', root)?.textContent || '').trim().toLowerCase();
+    if (hw.length >= 3 && /^[a-z'-]+$/.test(hw)) {
+      const stem = hw.length >= 5 ? hw.replace(/[ey]$/, '') : hw;   // make → making, study → studies
+      const re = new RegExp(`\\b${stem.replace(/[-']/g, '\\$&')}\\w*`, 'gi');
+      $$('.x', root).forEach(x => {
+        const w = doc.createTreeWalker(x, NodeFilter.SHOW_TEXT), texts = [];
+        while (w.nextNode()) texts.push(w.currentNode);
+        texts.forEach(t => {
+          if (t.data.search(re) < 0) return;
+          const frag = doc.createDocumentFragment(); let last = 0;
+          t.data.replace(re, (m, off) => {
+            frag.append(t.data.slice(last, off));
+            const mk = doc.createElement('mark'); mk.className = 'hw'; mk.textContent = m; frag.append(mk);
+            last = off + m.length; return m;
+          });
+          frag.append(t.data.slice(last));
+          t.replaceWith(frag);
+        });
+      });
+    }
+    // Extra examples / collocations / word origin… → collapsed <details>
+    $$('.collapse', root).forEach(c => {
+      const title = $('.box_title', c);
+      const d = doc.createElement('details'), s = doc.createElement('summary');
+      s.textContent = title ? title.textContent.trim() : 'More';
+      if (title) title.remove();
+      d.append(s); while (c.firstChild) d.append(c.firstChild);
+      c.replaceWith(d);
+    });
+  }
+
+  // ---------- clicks ----------
+  let audio = null;
+  function playSound(snd) {
+    const src = snd.dataset.srcMp3 || snd.dataset.srcOgg; if (!src) return;
+    if (audio) audio.pause();
+    audio = new Audio(src);
+    const pill = snd.closest('.phons_br, .phons_n_am') || snd;
+    $$('.playing').forEach(el => el.classList.remove('playing'));
+    pill.classList.add('playing');
+    audio.onended = audio.onerror = () => pill.classList.remove('playing');
+    audio.play().catch(() => pill.classList.remove('playing'));
+  }
+  document.addEventListener('click', (e) => {
+    const pill = e.target.closest('.sound, .phons_br, .phons_n_am');
+    const snd = pill && (pill.classList.contains('sound') ? pill : $('.sound', pill));
+    if (snd) { e.preventDefault(); playSound(snd); return; }
+    const chip = e.target.closest('[data-word]');
+    if (chip) { e.preventDefault(); lookup(chip.dataset.word); return; }
+    const a = e.target.closest('a[href]');
+    if (a) {
+      e.preventDefault();
+      let u; try { u = new URL(a.getAttribute('href'), BASE); } catch { return; }
+      const onOxford = /(^|\.)oxfordlearnersdictionaries\.com$/.test(u.hostname);
+      if (onOxford && /^\/definition\/english\//.test(u.pathname)) {
+        const anchor = u.hash ? decodeURIComponent(u.hash.slice(1)) : null;
+        u.hash = ''; go(u.href, { anchor });
+      } else if (onOxford && /^\/(search|spellcheck)\//.test(u.pathname) && u.searchParams.get('q')) {
+        lookup(u.searchParams.get('q'));
+      } else {
+        native({ cmd: 'open', url: u.href });
+      }
+    }
+  });
+
+  $('#pin').addEventListener('click', () => {
+    pinned = !pinned; $('#pin').classList.toggle('on', pinned);
+    native({ cmd: 'pin', on: pinned }); q.focus();
+  });
+  $('#web').addEventListener('click', () => native({ cmd: 'open', url: currentURL || BASE }));
+
+  // ---------- keyboard ----------
+  q.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); moveSel(1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); moveSel(-1); }
+    else if (e.key === 'Enter') { e.preventDefault(); lookup(suggSel >= 0 ? suggItems[suggSel] : q.value); }
+  });
+  q.addEventListener('blur', () => setTimeout(hideSugg, 100));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      if (sugg.classList.contains('show')) hideSugg(); else native({ cmd: 'hide' });
+      return;
+    }
+    if (e.metaKey && (e.key === '[' || e.key === ']')) {
+      e.preventDefault();
+      const n = hIdx + (e.key === '[' ? -1 : 1);
+      if (n >= 0 && n < history.length) { hIdx = n; go(history[n], { push: false }); }
+      return;
+    }
+    if (e.metaKey && (e.key === 'l' || e.key === 'f')) { e.preventDefault(); q.focus(); q.select(); return; }
+    if (e.metaKey && e.key === 'd') { e.preventDefault(); $('.save-btn', main)?.click(); return; }
+    // Start typing anywhere → new search
+    if (document.activeElement !== q && !e.metaKey && !e.ctrlKey && !e.altKey && e.key.length === 1 && e.key !== ' ') {
+      q.value = ''; q.focus();
+    }
+  });
+
+  // ---------- progress: daily goals, streaks, saved words ----------
+  // One JSON document, saved by Swift to ~/Library/Application Support/MiniDict/data.json
+  //   days:  { 'YYYY-MM-DD': ['word', …] }   distinct headwords per day, in lookup order
+  //   words: { word: { w, n, d, first, last } } n = lookups, d = days it was looked up on
+  //   saved: { entryURL: { w, pos, def, at } }
+  const MILESTONES = [5, 25, 50, 100];
+  const CHEERS = {
+    5:   ['Khởi động xong!', '5 từ đầu tiên hôm nay'],
+    25:  ['Chăm quá!', '25 từ hôm nay'],
+    50:  ['Nửa trăm!', '50 từ trong một ngày'],
+    100: ['Trăm từ một ngày!', 'Một ngày học ra trò'],
+  };
+  let data = { v: 1, days: {}, words: {}, saved: {} };
+  let view = null;
+  const dataReady = native({ cmd: 'loadData' }).then(j => {
+    const d = j ? JSON.parse(j) : null;
+    if (d && d.v === 1) data = Object.assign(data, d);
+  }).catch(() => {}).then(() => updateToday());
+
+  let saveTimer = 0;
+  const persist = () => {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => native({ cmd: 'saveData', json: JSON.stringify(data) }).catch(() => {}), 300);
+  };
+  const pad = (n) => String(n).padStart(2, '0');
+  const dayKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const daysAgo = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return d; };
+  const todayList = () => data.days[dayKey()] || [];
+  const nextMilestone = (n) => MILESTONES.find(m => m > n);
+  const display = (w) => data.words[w]?.w || w;
+
+  async function record(hw, push) {
+    await dataReady;
+    const w = hw.toLowerCase(), k = dayKey(), now = Date.now();
+    const day = data.days[k] || (data.days[k] = []);
+    const r = data.words[w] || (data.words[w] = { w: hw, n: 0, d: 0, first: now, last: now });
+    if (push) r.n++;
+    r.last = now;
+    const fresh = !day.includes(w);
+    if (fresh) { day.push(w); r.d++; }
+    persist();
+    updateToday(fresh);
+    if (fresh && MILESTONES.includes(day.length)) celebrate(day.length);
+  }
+
+  function updateToday(bump) {
+    const el = $('#today'), n = todayList().length, next = nextMilestone(n);
+    $('.n', el).textContent = n;
+    $('.of', el).textContent = next ? `/${next}` : '';
+    el.style.setProperty('--p', `${next ? n / next * 100 : 100}%`);
+    el.classList.toggle('lit', n >= MILESTONES[0]);
+    el.title = next ? `Hôm nay ${n} từ · còn ${next - n} từ tới mốc ${next} — bấm để xem thống kê`
+                    : `Hôm nay ${n} từ — đã qua mọi mốc!`;
+    if (bump) { el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+  }
+
+  // A day counts toward the streak once it reaches the first milestone. Today
+  // not reached yet doesn't break it: the streak runs up to yesterday.
+  function streaks() {
+    const ok = (k) => (data.days[k]?.length || 0) >= MILESTONES[0];
+    let cur = 0, i = ok(dayKey()) ? 0 : 1;
+    while (ok(dayKey(daysAgo(i)))) { cur++; i++; }
+    let best = 0, run = 0, prev = null;
+    for (const k of Object.keys(data.days).filter(ok).sort()) {
+      const t = new Date(k + 'T12:00');
+      run = prev && Math.round((t - prev) / 864e5) === 1 ? run + 1 : 1;
+      best = Math.max(best, run); prev = t;
+    }
+    return { cur, best: Math.max(best, cur) };
+  }
+
+  function celebrate(n) {
+    if (!prefs.celebrate) return;
+    const [title, sub] = CHEERS[n], st = streaks();
+    toast(n, title, n === MILESTONES[0] && st.cur > 1 ? `${sub} · chuỗi ${st.cur} ngày liên tiếp` : sub);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) confetti({ 5: 70, 25: 120, 50: 170, 100: 280 }[n]);
+  }
+
+  function toast(n, title, sub) {
+    $('.toast')?.remove();
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.innerHTML = `<div class="medal m${n}">${n}</div><div><b>${esc(title)}</b><span>${esc(sub)}</span></div>`;
+    t.addEventListener('click', () => { t.remove(); showView('stats'); });
+    document.body.append(t);
+    setTimeout(() => t.classList.add('out'), 3600);
+    setTimeout(() => t.remove(), 4000);
+  }
+
+  function confetti(count) {
+    const cv = document.createElement('canvas');
+    cv.className = 'confetti';
+    const dpr = devicePixelRatio || 1, W = innerWidth, H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    document.body.append(cv);
+    const ctx = cv.getContext('2d'); ctx.scale(dpr, dpr);
+    const css = getComputedStyle(document.documentElement);
+    const colors = ['--accent', '--lvl-a', '--lvl-c', '--uk', '--gold', '--flame'].map(v => css.getPropertyValue(v).trim());
+    const ps = Array.from({ length: count }, () => ({
+      x: W / 2 + (Math.random() - .5) * W * .25, y: H * .42,
+      vx: (Math.random() - .5) * 11, vy: -Math.random() * 10 - 4,
+      r: Math.random() * Math.PI, vr: (Math.random() - .5) * .35,
+      w: 5 + Math.random() * 5, h: 3 + Math.random() * 4,
+      c: colors[Math.floor(Math.random() * colors.length)],
+    }));
+    const t0 = performance.now();
+    (function frame(t) {
+      const age = t - t0;
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalAlpha = Math.max(0, 1 - Math.max(0, age - 1500) / 600);
+      for (const p of ps) {
+        p.vy += .3; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+        ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.r * 2)) + 1);
+        ctx.restore();
+      }
+      if (age < 2100) requestAnimationFrame(frame); else cv.remove();
+    })(t0);
+  }
+
+  // ---------- saved words ----------
+  const STAR = '<svg viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.1 1.1 5.9L12 16.6l-5.3 2.9 1.1-5.9-4.4-4.1 6-.8z"/></svg>';
+  function addSaveButton(url) {
+    const top = $('.entry > .top-container', main) || $('.top-container', main);
+    if (!top) return;
+    const b = document.createElement('button');
+    b.className = 'save-btn'; b.innerHTML = STAR;
+    const sync = () => {
+      const on = !!data.saved[url];
+      b.classList.toggle('on', on);
+      b.title = on ? 'Bỏ khỏi sổ từ (⌘D)' : 'Lưu vào sổ từ (⌘D)';
+    };
+    b.addEventListener('click', () => {
+      toggleSave(url); sync();
+      b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+    });
+    top.append(b);
+    dataReady.then(sync);
+  }
+  function toggleSave(url) {
+    if (data.saved[url]) delete data.saved[url];
+    else {
+      const def = ($('.def', main)?.textContent || '').trim().replace(/\s+/g, ' ');
+      data.saved[url] = {
+        w: $('h1.headword', main)?.textContent.trim() || '',
+        pos: $('.webtop .pos', main)?.textContent.trim() || '',
+        def: def.length > 160 ? def.slice(0, 157) + '…' : def,
+        at: Date.now(),
+      };
+    }
+    persist();
+  }
+
+  // ---------- dashboard ----------
+  const FLAME = $('#today svg').outerHTML;
+  function showView(name) {
+    view = name; hideSugg(); main.classList.remove('loading'); main.scrollTop = 0;
+    dataReady.then(() => { if (view === name) main.innerHTML = dashboard(name); });
+  }
+
+  function dashboard(tab) {
+    const savedN = Object.keys(data.saved).length;
+    const tabs = [['stats', 'Thống kê'], ['saved', `Đã lưu${savedN ? `<i>${savedN}</i>` : ''}`], ['history', 'Lịch sử']]
+      .map(([k, l]) => `<button data-view="${k}" class="${k === tab ? 'on' : ''}">${l}</button>`).join('');
+    const back = hIdx >= 0 ? '<button class="back" data-back>‹ Quay lại</button>' : '';
+    const body = tab === 'saved' ? savedView() : tab === 'history' ? historyView() : statsView();
+    return `<div class="dash"><div class="dash-top">${back}<nav class="seg">${tabs}</nav></div>${body}</div>`;
+  }
+
+  function statsView() {
+    const n = todayList().length, next = nextMilestone(n), st = streaks();
+    const total = Object.keys(data.words).length, savedN = Object.keys(data.saved).length;
+    const C = 2 * Math.PI * 13, p = next ? n / next : 1;
+    const ring = `<svg class="ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" class="track"/><circle cx="16" cy="16" r="13" class="arc" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C * (1 - p)).toFixed(1)}"/></svg>`;
+    const tiles = `<section class="tiles">
+      <div class="tile"><div class="t-label">Hôm nay</div>
+        <div class="t-big">${ring}${n}${next ? `<small>/${next}</small>` : ''}</div>
+        <div class="t-sub">${next ? `còn <b>${next - n}</b> từ tới mốc ${next}` : 'Đã qua mọi mốc!'}</div></div>
+      <div class="tile"><div class="t-label">Chuỗi ngày</div>
+        <div class="t-big"><span class="flame ${st.cur ? 'lit' : ''}">${FLAME}</span>${st.cur}</div>
+        <div class="t-sub">kỷ lục ${st.best} ngày · mỗi ngày ≥ ${MILESTONES[0]} từ</div></div>
+      <div class="tile"><div class="t-label">Tổng số từ</div>
+        <div class="t-big">${total}</div>
+        <div class="t-sub">${savedN} từ đã lưu</div></div>
+    </section>`;
+    const medals = `<section><div class="section-label">Mốc hôm nay</div><div class="medals">${MILESTONES.map(m =>
+      `<div class="mdl ${n >= m ? 'got' : ''} ${m === next ? 'next' : ''}"><div class="medal m${m}">${m}</div>
+        <span>${n >= m ? 'Đã đạt' : m === next ? `${n}/${m}` : 'Chưa tới'}</span></div>`).join('')}</div></section>`;
+    return tiles + medals + chart() + boards();
+  }
+
+  function chart() {
+    const WD = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+    const days = Array.from({ length: 14 }, (_, i) => daysAgo(13 - i));
+    const counts = days.map(d => (data.days[dayKey(d)] || []).length);
+    const max = Math.max(MILESTONES[0] * 2, ...counts) * 1.15;
+    const cols = days.map((d, i) => {
+      const c = counts[i];
+      return `<div class="col ${i === 13 ? 'today' : ''} ${c ? '' : 'zero'}" data-tip="${WD[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1} · ${c} từ">
+        <div class="b" data-n="${c}" style="height:${(c / max * 100).toFixed(1)}%"></div></div>`;
+    }).join('');
+    const labels = days.map((d, i) => i === 13 ? '<span class="now">Nay</span>' : `<span>${WD[d.getDay()]}</span>`).join('');
+    return `<section><div class="section-label">14 ngày qua</div>
+      <div class="plot"><div class="goal" style="bottom:${(MILESTONES[0] / max * 100).toFixed(1)}%"><span>mục tiêu</span></div>${cols}</div>
+      <div class="xlabels">${labels}</div></section>`;
+  }
+
+  function boards() {
+    const top = Object.entries(data.words).filter(([, r]) => r.n > 0)
+      .sort((a, b) => b[1].n - a[1].n || b[1].last - a[1].last).slice(0, 10);
+    const maxN = top[0]?.[1].n || 1;
+    const rows = top.map(([k, r], i) => `<li><span class="rank r${i + 1}">${i + 1}</span>
+      <button class="lb-word" data-word="${esc(r.w || k)}">${esc(r.w || k)}</button>
+      <span class="lb-bar"><i style="width:${(r.n / maxN * 100).toFixed(0)}%"></i></span>
+      <span class="lb-n">${r.n} lần</span></li>`).join('');
+    const best = Object.entries(data.days).map(([k, v]) => [k, v.length]).filter(x => x[1])
+      .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? 1 : -1)).slice(0, 5);
+    const bestRows = best.map(([k, c], i) => {
+      const [y, m, d] = k.split('-'), medal = [...MILESTONES].reverse().find(x => c >= x);
+      return `<li><span class="rank r${i + 1}">${i + 1}</span>
+        <span class="lb-word">${+d}/${+m}/${y}${k === dayKey() ? '<em>hôm nay</em>' : ''}</span><span class="lb-sp"></span>
+        ${medal ? `<span class="medal sm m${medal}">${medal}</span>` : ''}<span class="lb-n">${c} từ</span></li>`;
+    }).join('');
+    const none = '<p class="muted">Chưa có dữ liệu, tra vài từ đã nhé.</p>';
+    return `<section class="boards">
+      <div><div class="section-label">Bảng xếp hạng · tra nhiều nhất</div>${rows ? `<ol class="lb">${rows}</ol>` : none}</div>
+      <div><div class="section-label">Ngày kỷ lục</div>${bestRows ? `<ol class="lb">${bestRows}</ol>` : none}</div>
+    </section>`;
+  }
+
+  function savedView() {
+    const items = Object.entries(data.saved).sort((a, b) => b[1].at - a[1].at);
+    if (!items.length) return `<div class="empty small"><p>Chưa lưu từ nào.<br>
+      Bấm ☆ ở góc mục từ hoặc nhấn <kbd>⌘</kbd> <kbd>D</kbd> để lưu.</p></div>`;
+    return `<div class="list-bar"><span>${items.length} từ · mới nhất trước</span>
+        <button class="chip" data-copy title="Mỗi dòng: từ ⇥ loại từ ⇥ nghĩa — dán thẳng vào Anki, Excel, Sheets">Sao chép danh sách</button></div>
+      <ul class="saved">${items.map(([url, x]) => `<li>
+        <a class="sv-main" href="${esc(url)}"><b>${esc(x.w)}</b>${x.pos ? `<i>${esc(x.pos)}</i>` : ''}<span>${esc(x.def)}</span></a>
+        <button class="sv-x" data-unsave="${esc(url)}" title="Bỏ khỏi sổ từ">×</button></li>`).join('')}</ul>`;
+  }
+
+  function historyView() {
+    const keys = Object.keys(data.days).filter(k => data.days[k].length).sort().reverse().slice(0, 60);
+    if (!keys.length) return '<p class="muted">Chưa tra từ nào.</p>';
+    const starred = new Set(Object.values(data.saved).map(x => x.w.toLowerCase()));
+    const today = dayKey(), yesterday = dayKey(daysAgo(1));
+    return keys.map(k => {
+      const [y, m, d] = k.split('-'), list = data.days[k];
+      const label = k === today ? 'Hôm nay' : k === yesterday ? 'Hôm qua' : `${+d}/${+m}/${y}`;
+      return `<section><div class="section-label">${label} · ${list.length} từ</div><div class="chips">${list.map(w =>
+        `<button class="chip${starred.has(w) ? ' starred' : ''}" data-word="${esc(display(w))}">${esc(display(w))}</button>`).join('')}</div></section>`;
+    }).join('');
+  }
+
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-view], [data-back], [data-unsave], [data-copy], #today');
+    if (!t) return;
+    e.preventDefault();
+    if (t.id === 'today') showView('stats');
+    else if (t.dataset.view) showView(t.dataset.view);
+    else if (t.hasAttribute('data-back')) go(history[hIdx], { push: false });
+    else if (t.dataset.unsave) { delete data.saved[t.dataset.unsave]; persist(); showView('saved'); }
+    else if (t.hasAttribute('data-copy')) {
+      const tsv = Object.values(data.saved).sort((a, b) => b.at - a.at)
+        .map(x => [x.w, x.pos, x.def].join('\t')).join('\n');
+      native({ cmd: 'copy', text: tsv });
+      t.textContent = 'Đã chép ✓';
+      setTimeout(() => { t.textContent = 'Sao chép danh sách'; }, 1600);
+    }
+  });
+
+  // ---------- entry point for Swift ----------
+  window.MiniDict = {
+    open(text) {
+      if (text) { lookup(text); q.blur(); }
+      else { q.focus(); q.select(); if (!currentURL && !q.value) home(); }
+    },
+    setPrefs(p) { applyPrefs(p); },
+    view(name) { showView(name); },
+    // Shown when the shortcut can't read the selection because Accessibility isn't granted.
+    notice(kind) {
+      if (kind !== 'noAccess' || $('.notice', main)) return;
+      const n = document.createElement('div');
+      n.className = 'notice';
+      n.innerHTML = `<span>MiniDict chưa có quyền Trợ năng nên không đọc được chữ bạn bôi đen.</span>
+        <button data-cmd="setup">Bật quyền</button>`;
+      main.prepend(n);
+    },
+  };
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-cmd="setup"]')) { e.preventDefault(); native({ cmd: 'setupSelection' }); }
+  });
+
+  home();
+  native({ cmd: 'ready' }).then(applyPrefs);
+})();
+</script>
+</body>
+</html>
