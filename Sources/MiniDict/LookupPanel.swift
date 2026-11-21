@@ -199,6 +199,10 @@ final class LookupPanelController: NSObject, NSWindowDelegate, WKNavigationDeleg
             if let q = pendingQuery { pendingQuery = nil; send(q) }
             if let v = pendingView { pendingView = nil; webView.evaluateJavaScript("MiniDict.view('\(v)')") }
 
+        case "health":
+            Prefs.oxfordBroken = !(body["ok"] as? Bool ?? true)
+            replyHandler(nil, nil)
+
         case "loadData":
             replyHandler(Store.load(), nil)
 

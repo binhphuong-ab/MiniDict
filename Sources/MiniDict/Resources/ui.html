@@ -566,6 +566,18 @@ ul.saved li:hover .sv-x { opacity: 1; }
     const entry = $('#entryContent', doc);
     main.scrollTop = 0;
 
+    // Oxford layout check: a /definition/ page must have #entryContent with a headword.
+    // If not, Oxford changed its HTML: tell Swift (menu shows a warning) instead of "word not found".
+    if (/\/definition\/english\//.test(new URL(res.url).pathname)) {
+      const ok = !!(entry && $('h1.headword', entry));
+      native({ cmd: 'health', ok }).catch(() => {});
+      if (!ok) {
+        main.innerHTML = `<div class="msg"><h3>Oxford vừa đổi giao diện</h3>MiniDict chưa đọc được trang này nên cần cập nhật.
+          Tạm thời bấm nút ↗ ở góc trên để xem nghĩa trên web Oxford.</div>`;
+        return;
+      }
+    }
+
     if (entry) {
       clean(entry, doc);
       main.innerHTML = '';

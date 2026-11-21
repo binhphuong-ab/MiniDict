@@ -87,6 +87,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc private func openPanel() { panel.show(query: nil) }
     @objc private func openStats() { panel.showView("stats") }
+    @objc private func openFixGuide() {
+        NSWorkspace.shared.open(URL(string: "https://github.com/binhphuong-ab/MiniDict/blob/main/TECHNICAL.md")!)
+    }
     @objc private func openSaved() { panel.showView("saved") }
     @objc private func toggleCelebrate() { Prefs.celebrate.toggle(); panel.pushPrefs() }
     @objc private func enableSelection() {
@@ -197,6 +200,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
+
+        if Prefs.oxfordBroken {
+            menu.addItem(item("⚠︎ Oxford đã đổi giao diện, MiniDict cần cập nhật", #selector(openFixGuide)))
+            menu.addItem(.separator())
+        }
 
         menu.addItem(item("Tra từ…    \(shortcutLabel)", #selector(openPanel)))
         menu.addItem(item("Thống kê & thành tích…", #selector(openStats)))

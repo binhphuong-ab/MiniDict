@@ -16,6 +16,7 @@ App menu bar macOS để tra **Oxford Advanced Learner's Dictionary** mà không
 | Menu ▸ *Thống kê & thành tích…* | Chuỗi ngày, mốc hôm nay, biểu đồ 14 ngày, bảng xếp hạng từ tra nhiều nhất, ngày kỷ lục |
 | Menu ▸ *Sổ từ đã lưu…* | Danh sách đã lưu; *Sao chép danh sách* ra dạng bảng (từ ⇥ loại từ ⇥ nghĩa) để dán vào Anki, Excel, Sheets |
 | Menu ▸ *Ăn mừng khi đạt mốc* | Pháo giấy + thông báo ở mốc 5 / 25 / 50 / 100 từ mỗi ngày (bật mặc định) |
+| Dòng *⚠︎ Oxford đã đổi giao diện* đầu menu | Chỉ hiện khi Oxford đổi HTML làm app không đọc được nghĩa; bấm để mở hướng dẫn sửa. Tự mất khi tra lại được |
 | Gõ từ → **Enter** | Tra; **↑ ↓** chọn gợi ý |
 | Gõ phím bất kỳ khi đang xem kết quả | Bắt đầu tra từ mới |
 | **⌘[ / ⌘]** | Lùi / tiến lịch sử tra |

@@ -107,4 +107,10 @@ macOS (TCC) gắn quyền Trợ năng với *designated requirement* (DR) của 
 
 ## 6. Khi Oxford đổi giao diện
 
+**App tự báo (từ 1.9):** một trang `/definition/english/…` mà không có `#entryContent` chứa `h1.headword` thì bị coi là Oxford đã đổi HTML.
+Khi đó JS gửi `health {ok:false}`, Swift đặt `oxford.broken = true`, và đầu menu hiện dòng *⚠︎ Oxford đã đổi giao diện*; khung tra báo lỗi thay vì "Không có từ".
+Trang tra lần sau đọc được bình thường sẽ tự xoá cảnh báo. Gõ sai chính tả (trang `/spellcheck/`) không bị tính là lỗi.
+
+Lịch sử (đo qua Wayback Machine, 11/2026): lần thiết kế lại lớn gần nhất là khoảng 2019–2020 (phiên bản 1.6 → 2.1). Từ đó đến 2.3.82 chỉ có thay đổi nhỏ ở phần bao ngoài; các class phần nghĩa giữ nguyên.
+
 Mọi selector nằm trong `ui.html`: `#entryContent`, `h1.headword`, `li.sense`, `.def`, `.collapse`, `.box_title`, `.sound`, `#relatedentries`, `.result-list`. Sửa xong chỉ cần `./build.sh`.

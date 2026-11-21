@@ -42,6 +42,13 @@ enum Prefs {
         set { d.set(newValue, forKey: "celebrate") }
     }
 
+    /// Set when an Oxford entry page no longer has the HTML MiniDict reads
+    /// (Oxford redesigned its site); cleared by the next page that parses fine.
+    static var oxfordBroken: Bool {
+        get { d.bool(forKey: "oxford.broken") }
+        set { d.set(newValue, forKey: "oxford.broken") }
+    }
+
     /// What the web UI needs to know.
     static var forUI: [String: Any] { ["autoplay": autoplay, "theme": theme, "celebrate": celebrate] }
 }

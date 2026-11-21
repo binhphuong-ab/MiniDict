@@ -32,8 +32,8 @@ cat > "$BUNDLE/Contents/Info.plist" <<PLIST
     <key>CFBundleName</key>                 <string>$APP_NAME</string>
     <key>CFBundleDisplayName</key>          <string>$APP_NAME</string>
     <key>CFBundleIdentifier</key>           <string>com.user.minidict</string>
-    <key>CFBundleVersion</key>              <string>1.8</string>
-    <key>CFBundleShortVersionString</key>   <string>1.8</string>
+    <key>CFBundleVersion</key>              <string>1.9</string>
+    <key>CFBundleShortVersionString</key>   <string>1.9</string>
     <key>CFBundlePackageType</key>          <string>APPL</string>
     <key>CFBundleExecutable</key>           <string>$APP_NAME</string>
     <key>CFBundleIconFile</key>             <string>AppIcon</string>
