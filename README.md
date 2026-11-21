@@ -2,6 +2,16 @@
 
 App menu bar macOS để tra **Oxford Advanced Learner's Dictionary** mà không phải mở web: không quảng cáo, không tracker, không tab mới. Bôi đen một chữ rồi **nhấn đúp ⌘ Command** ở bất kỳ app nào, khung tra hiện ra kèm nghĩa và tự đọc phát âm; **Esc** là quay lại đúng chỗ đang đọc.
 
+## Tải về
+
+**[⬇︎ Bản mới nhất (MiniDict-x.y.zip)](https://github.com/binhphuong-ab/MiniDict/releases/latest)**: macOS 13 trở lên, chạy trên cả Apple Silicon lẫn Intel.
+
+1. Giải nén, kéo **MiniDict.app** vào thư mục **Applications**.
+2. Mở app. macOS sẽ báo *"Apple không thể xác minh MiniDict…"*, vì app không ký bằng tài khoản Apple Developer trả phí. Bấm **Xong**, rồi vào **Cài đặt hệ thống ▸ Quyền riêng tư & Bảo mật**, kéo xuống, bấm **Vẫn mở** và xác nhận. Chỉ phải làm một lần.
+3. Biểu tượng cuốn sách hiện trên menu bar. Bấm vào ▸ **Bật tra chữ đang bôi đen…** rồi bật MiniDict trong *Trợ năng*.
+
+Bản cập nhật sau ký cùng chứng chỉ, nên thay file app mới vào là quyền Trợ năng vẫn giữ.
+
 ## Dùng
 
 | Thao tác | Kết quả |
@@ -34,6 +44,8 @@ Chỉ cần bật một lần: app được ký bằng chứng chỉ cố địn
 ```bash
 ./build.sh               # build + cài vào /Applications
 ./build.sh --no-install  # chỉ build
+tools/release.sh --dry   # build universal + đóng zip vào dist/
+NOTES=notes.md tools/release.sh   # ...và tạo GitHub Release v<phiên bản>
 ```
 
 Cần Xcode Command Line Tools (`xcode-select --install`), không cần Xcode.app. Không có thư viện ngoài.

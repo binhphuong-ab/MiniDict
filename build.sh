@@ -2,6 +2,7 @@
 # Builds MiniDict.app from the Swift package and installs it to /Applications.
 #   ./build.sh               build + install
 #   ./build.sh --no-install  build only
+#   UNIVERSAL=1 ./build.sh   Apple Silicon + Intel binary (used by tools/release.sh)
 set -euo pipefail
 
 cd "$(dirname "$0")"
@@ -9,7 +10,7 @@ APP_NAME="MiniDict"
 BUNDLE="$APP_NAME.app"
 
 echo "==> swift build"
-swift build -c release
+swift build -c release ${UNIVERSAL:+--arch arm64 --arch x86_64}
 
 echo "==> icon"
 rm -rf build/AppIcon.iconset
