@@ -49,6 +49,12 @@ enum Prefs {
         set { d.set(newValue, forKey: "oxford.broken") }
     }
 
+    /// The one-time "how to turn on Accessibility" explanation has been shown.
+    static var accessIntroShown: Bool {
+        get { d.bool(forKey: "access.introShown") }
+        set { d.set(newValue, forKey: "access.introShown") }
+    }
+
     /// What the web UI needs to know.
     static var forUI: [String: Any] { ["autoplay": autoplay, "theme": theme, "celebrate": celebrate] }
 }

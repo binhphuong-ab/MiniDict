@@ -245,9 +245,8 @@ final class LookupPanelController: NSObject, NSWindowDelegate, WKNavigationDeleg
             replyHandler(nil, nil)
 
         case "setupSelection":
-            Selection.requestTrust()
-            Selection.openSettings()
             replyHandler(nil, nil)
+            AccessSetup.shared.start(explain: false)
 
         case "hide":
             hide()

@@ -30,14 +30,15 @@ AppDelegate ─ NSStatusItem + menu · HotKey ⌥Space · URL scheme minidict://
         └─ NSVisualEffectView ─ WKWebView ← Resources/ui.html
                  ▲  window.webkit.messageHandlers.native (WKScriptMessageHandlerWithReply)
                  │  cmd: ready · suggest · page · open · pin · hide · loadData · saveData · copy
-                 └─ Oxford.swift (URLSession, UA Chrome, chỉ cho phép host Oxford)
+                 └─ Oxford.swift (WKWebView ẩn, UA WebKit gốc, chỉ cho phép host Oxford)
 ```
 
 **Vì sao HTML render trong WKWebView, còn fetch ở Swift:**
 - Mục từ Oxford rất phong phú (nghĩa, CEFR, ví dụ, collocations, idioms, bảng chia động từ). Parse sang native view sẽ mất dữ liệu và dễ vỡ.
   `DOMParser` trong JS tách `#entryContent`, bỏ script/ảnh/quảng cáo, rồi áp CSS riêng.
   `DOMParser` tạo document "trơ" nên script của Oxford không bao giờ chạy.
-- Fetch qua Swift để tránh CORS, tự đặt User-Agent, và giới hạn host chỉ là `oxfordlearnersdictionaries.com`.
+- Tải trang bằng một WKWebView ẩn (engine và User-Agent WebKit gốc, kho cookie mặc định của app) thay vì URLSession: Oxford đứng sau bước kiểm tra trình duyệt của Cloudflare, client HTTP thường bị trả 403, còn WebKit chạy bước kiểm tra như Safari. Nếu bước kiểm tra cần người dùng, trang hiện trong một cửa sổ nhỏ để họ tự hoàn tất. Gợi ý tìm kiếm gọi `fetch()` ngay trong trang Oxford đó. Host vẫn giới hạn ở `oxfordlearnersdictionaries.com`.
+- Quyền Trợ năng: `AccessSetup.swift` hiện hướng dẫn lần đầu mở app, theo dõi `AXIsProcessTrusted()` mỗi 1,5 giây khi chưa có quyền, rồi bật ⌘⌘ và báo người dùng ngay khi quyền được cấp.
 
 **Vì sao panel non-activating:** khung tra nhận bàn phím nhưng app đang đọc tài liệu vẫn là app *active*. Ẩn panel là focus tự trả về chỗ cũ, không nháy cửa sổ, không đổi Space (giống Spotlight).
 
