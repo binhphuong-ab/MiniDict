@@ -6,7 +6,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private lazy var panel = LookupPanelController()
     private var hotKey: HotKey?                       // ⌥Space (optional)
     private lazy var doubleCommand = DoubleCommandTap { [weak self] in self?.hotKeyPressed() }
-    private var trustTimer: Timer?
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         Prefs.registerDefaults()
@@ -37,7 +36,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.delegate = self
         statusItem.menu = menu
 
+        MainActor.assumeIsolated {
+            AccessSetup.shared.onGranted = { [weak self] in self?.applyTriggers() }
+        }
         applyTriggers()
+        Oxford.warmUp()
+        // First launch without Accessibility: explain how to turn it on, once.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { AccessSetup.shared.introduceIfNeeded() }
     }
 
     // MARK: triggers
@@ -55,19 +60,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // ⌘⌘ — global key monitor, needs Accessibility. A monitor installed before
         // the permission is granted never starts receiving events, so wait for
         // the grant and install it then.
-        trustTimer?.invalidate(); trustTimer = nil
-        if Prefs.doubleCommand {
-            if Selection.isTrusted {
-                if !doubleCommand.isRunning { doubleCommand.start() }
-            } else {
-                doubleCommand.stop()
-                trustTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
-                    if Selection.isTrusted { self?.applyTriggers() }
-                }
-            }
+        if Prefs.doubleCommand, Selection.isTrusted {
+            if !doubleCommand.isRunning { doubleCommand.start() }
         } else {
             doubleCommand.stop()
         }
+        // Not granted yet: watch for it, so ⌘⌘ starts and the user is told the moment it is.
+        if !Selection.isTrusted { MainActor.assumeIsolated { AccessSetup.shared.watch() } }
     }
 
     private func hotKeyPressed() {
@@ -92,10 +91,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     @objc private func openSaved() { panel.showView("saved") }
     @objc private func toggleCelebrate() { Prefs.celebrate.toggle(); panel.pushPrefs() }
-    @objc private func enableSelection() {
-        Selection.requestTrust()
-        Selection.openSettings()
-    }
+    @objc private func enableSelection() { MainActor.assumeIsolated { AccessSetup.shared.start() } }
     @objc private func toggleLogin() { LoginItem.set(!LoginItem.isEnabled) }
 
     @objc private func toggleDoubleCommand() {
