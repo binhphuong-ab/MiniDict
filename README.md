@@ -10,7 +10,7 @@ App menu bar macOS để tra **Oxford Advanced Learner's Dictionary** mà không
 2. Mở app. macOS sẽ báo *"Apple không thể xác minh MiniDict…"*, vì app không ký bằng tài khoản Apple Developer trả phí. Bấm **Xong**, rồi vào **Cài đặt hệ thống ▸ Quyền riêng tư & Bảo mật**, kéo xuống, bấm **Vẫn mở** và xác nhận. Chỉ phải làm một lần.
 3. Biểu tượng cuốn sách hiện trên menu bar. Lần đầu mở, MiniDict tự hiện hướng dẫn bật quyền *Trợ năng* (hoặc bấm vào biểu tượng ▸ **Bật tra chữ đang bôi đen…**). Bật MiniDict trong *Trợ năng*; app tự nhận ra và báo **Đã bật tra chữ đang bôi đen ✓**. Nếu đã bật mà app vẫn không nhận, chọn MiniDict trong danh sách, bấm **−** để xoá rồi bật lại.
 
-Bản cập nhật sau ký cùng chứng chỉ, nên thay file app mới vào là quyền Trợ năng vẫn giữ.
+Bản cập nhật sau ký cùng chứng chỉ, nên thay file app mới vào là quyền Trợ năng vẫn giữ. Riêng khi lên **1.10** từ 1.9 (đổi chứng chỉ ký), cần bật lại quyền Trợ năng một lần: app tự hiện hướng dẫn.
 
 ## Dùng
 
