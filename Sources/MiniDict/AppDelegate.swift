@@ -38,6 +38,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusItem.menu = menu
 
         applyTriggers()
+        Oxford.warmUp()
     }
 
     // MARK: triggers
